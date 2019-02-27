@@ -1,6 +1,5 @@
 package placement;
 import java.sql.*;  
-import com.mysql.jdbc.Driver;
 
 
 public class DBSetup {
@@ -8,11 +7,10 @@ public class DBSetup {
 	public static DBSetup getDBSetup() {
 		return new DBSetup();
 	}
-	public void DBSetup() {}
 	public String testConnection() {
 		StringBuffer buf = new StringBuffer();
 		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();  
+			Class.forName("com.mysql.jdbc.Driver");  
 			Connection con=DriverManager.getConnection(  
 					"jdbc:mysql://localhost:3306/placement","placement","RFH2019!");  
 			//here sonoo is database name, root is username and password  

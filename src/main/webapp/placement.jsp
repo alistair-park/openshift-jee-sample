@@ -5,11 +5,12 @@
 	<%@ page import="java.lang.management.*" %>
 	<%@ page import="java.util.*" %>
 	<%@ page import="placement.*" %>
+	<%@ page import="com.mysql.cj.jdbc.*" %>
 </HEAD>
 <BODY>
 
 <H1>WebApp JSP Test Page</H1>
-<%=DBSetup.getDBSetup().testConnection()%>
+<%= DBSetup.getDBSetup().testConnection().toString()%>
 
 </BODY>
 </HTML>
