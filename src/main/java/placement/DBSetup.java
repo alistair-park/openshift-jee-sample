@@ -25,7 +25,7 @@ public class DBSetup {
 		return buf.toString();
 	}
 	public String testConnection() {
-		StringBuffer buf = new StringBuffer();
+		StringBuffer buf = new StringBuffer("<p>Hello world</p>");
 		try {
 			this.conn = DriverManager.getConnection(server, rootUser, rootPassword);
 
@@ -35,7 +35,7 @@ public class DBSetup {
 			Statement stmt=conn.createStatement();  
 			ResultSet rs=stmt.executeQuery("select * from REGISTRATION");  
 			while(rs.next())  
-				buf.append(rs.getString(1));  
+				buf.append("<p>"+ rs.getString(2) + "</p>");  
 			conn.close();  
 		}catch(Exception e){ buf.append(e);}//System.out.println(e);}  
 		return buf.toString();
