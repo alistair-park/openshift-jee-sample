@@ -66,7 +66,7 @@ public class DBSetup {
 
 
 	private String addStudentRecord(String firstName, String familyName, int age) throws SQLException {
-		PreparedStatement statement = conn.prepareStatement("INSERT INTO REGISTRATION ('first','last','age') VALUES (?,?,?)");
+		PreparedStatement statement = conn.prepareStatement("INSERT INTO REGISTRATION (first,last,age) VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS);
 
 		statement.setString(1, firstName);
 		statement.setString(2, familyName);
