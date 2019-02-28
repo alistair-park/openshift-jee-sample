@@ -33,9 +33,10 @@ public class DBSetup {
 			//					"jdbc:mysql://localhost:3306/placement","placement","RFH2019!");  
 			//			//here sonoo is database name, root is username and password  
 			Statement stmt=conn.createStatement();  
-			ResultSet rs=stmt.executeQuery("select * from REGISTRATION");  
+			ResultSet rs=stmt.executeQuery("select * from REGISTRATION");
+			buf.append("<p>Executed query</p>/r/n");
 			while(rs.next())  
-				buf.append("<p>"+ rs.getString(2) + "</p>");  
+				buf.append("<p>"+ rs.getString(2) + "</p>/r/n");  
 			conn.close();  
 		}catch(Exception e){ buf.append(e);}//System.out.println(e);}  
 		return buf.toString();
