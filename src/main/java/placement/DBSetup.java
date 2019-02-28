@@ -31,10 +31,15 @@ public class DBSetup {
 			//					"jdbc:mysql://localhost:3306/placement","placement","RFH2019!");  
 			//			//here sonoo is database name, root is username and password  
 			Statement stmt=conn.createStatement();  
-			ResultSet rs=stmt.executeQuery("select * from REGISTRATION");
+			ResultSet rs=stmt.executeQuery("select * from STUDENT");
 			buf.append("<p>Executed query</p>/r/n");
 			while(rs.next())  
-				buf.append("<p>"+ rs.getString(2) + "</p>/r/n");  
+				buf.append("<p>"+ rs.getString(2) + "</p>");  
+
+			 rs=stmt.executeQuery("select * from PRACTICE");
+			buf.append("<p>Executed query</p>/r/n");
+			while(rs.next())  
+				buf.append("<p>"+ rs.getString(2) + "</p>");  
 			conn.close();  
 		}catch(Exception e){ buf.append(e);}//System.out.println(e);}  
 		return buf.toString();
@@ -50,10 +55,13 @@ public class DBSetup {
 			this.conn = DriverManager.getConnection(server, rootUser, rootPassword);
 			buf.append("<p>createStudentTable</p>");
 			createStudentTable();
+			createPracticeTable();
 			buf.append("<p>addStudentRecord</p>");
 
-			buf.append(addStudentRecord("Fred","Bloggs",37));
-			buf.append(addStudentRecord("John","Doe",43));
+			buf.append(addStudentRecord("B05","Fred","Bloggs","W1D 4LR"));
+			buf.append(addStudentRecord("B05","John","Doe","W127AP"));
+			buf.append(addPracticeRecord("Sheema Sufi", "Eltham Park Surgery", "SE9 1JE", 4));
+			buf.append(addPracticeRecord("Dr A Marks & Dr Kanagarajah", "Eagle House Surgery", "EN3 4DN", 6));
 			conn.close();  
 		}
 		catch(Exception e)
@@ -65,12 +73,28 @@ public class DBSetup {
 	}
 
 
-	private String addStudentRecord(String firstName, String familyName, int age) throws SQLException {
-		PreparedStatement statement = conn.prepareStatement("INSERT INTO REGISTRATION (first,last,age) VALUES (?,?,?)");
+	private String addPracticeRecord(String gp, String practiceName, String postCode, int places) throws SQLException {
+		PreparedStatement statement = conn.prepareStatement("INSERT INTO PRACTICE (gp, practicename, postcode, places) VALUES (?,?,?,?)");
 
-		statement.setString(1, firstName);
-		statement.setString(2, familyName);
-		statement.setInt(3, age);
+		statement.setString(1, gp);
+		statement.setString(2, practiceName);
+		statement.setString(3, postCode);
+		statement.setInt(4, places);
+
+		int affectedRows = statement.executeUpdate();
+
+		if (affectedRows == 0) {
+			throw new SQLException("Creating user failed, no rows affected.");
+		}
+		return "Affected rows = " + affectedRows;
+	}
+	private String addStudentRecord(String ref, String firstName, String familyName, String postCode) throws SQLException {
+		PreparedStatement statement = conn.prepareStatement("INSERT INTO STUDENT (ref, first,last, postcode) VALUES (?,?,?)");
+
+		statement.setString(1, ref);
+		statement.setString(2, firstName);
+		statement.setString(3, familyName);
+		statement.setString(4, postCode);
 
 		int affectedRows = statement.executeUpdate();
 
@@ -81,14 +105,28 @@ public class DBSetup {
 	}
 
 
+	private void createPracticeTable() throws SQLException {
+		Statement stmt=conn.createStatement();  
+		String sql = 
+		"CREATE TABLE IF NOT EXISTS PRACTICE ("+
+			    "id INT NOT NULL AUTO_INCREMENT,"+
+			    "gp VARCHAR(255) NOT NULL,"+
+			    "practiceName VARCHAR(255) NOT NULL,"+
+			    "postcode VARCHAR2(10),"+
+			    "places INT,"+
+			    "PRIMARY KEY (id))";
+		stmt.executeUpdate(sql);
+	}
 	private void createStudentTable() throws SQLException {
 		Statement stmt=conn.createStatement();  
 		String sql = 
-		"CREATE TABLE IF NOT EXISTS REGISTRATION ("+
+		"CREATE TABLE IF NOT EXISTS STUDENT ("+
 			    "id INT NOT NULL AUTO_INCREMENT,"+
+			    "ref VARCHAR(6) NOT NULL,"+
 			    "first VARCHAR(255) NOT NULL,"+
 			    "last VARCHAR(255) NOT NULL,"+
-			    "age INT,"+
+			    "postcode VARCHAR2(10),"+
+			    "allocatedPractice VARCHAR2(100),"+
 			    "PRIMARY KEY (id))";
 		stmt.executeUpdate(sql);
 	}
