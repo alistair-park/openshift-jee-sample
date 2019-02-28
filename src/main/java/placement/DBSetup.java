@@ -3,7 +3,7 @@ import java.sql.*;
 
 
 public class DBSetup {
-	  private String server = "jdbc:mysql://" + System.getenv("OPENSHIFT_MYSQL_DB_HOST") + ":" + System.getenv("OPENSHIFT_MYSQL_DB_PORT") + "/" + "placement";//System.getenv("OPENSHIFT_APP_NAME") + "";
+	  private String server = "jdbc:mysql://" + System.getenv("OPENSHIFT_MYSQL_DB_HOST") + ":" + System.getenv("OPENSHIFT_MYSQL_DB_PORT") + "/" + "mysql";//System.getenv("OPENSHIFT_APP_NAME") + "";
 	    private String user = "placement";//System.getenv("OPENSHIFT_MYSQL_DB_USERNAME");
 	    private String pass = "RFH2019!";//System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD");
 	    private Connection conn;
