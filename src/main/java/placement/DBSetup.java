@@ -73,7 +73,7 @@ public class DBSetup {
 
 	private void createStudentTable() throws SQLException {
 		Statement stmt=conn.createStatement();  
-		String sql = "CREATE TABLE REGISTRATION " +
+		String sql = "CREATE OR REPLACE TABLE REGISTRATION " +
 				"(id INTEGER not NULL, " +
 				" first VARCHAR(255), " + 
 				" last VARCHAR(255), " + 
