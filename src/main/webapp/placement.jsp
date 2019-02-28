@@ -12,6 +12,7 @@
 
   <%
   	DBSetup db = new DBSetup();
+	out.print(db.initialiseDatabase());
 	out.print(db.testConnection());
   %>
 

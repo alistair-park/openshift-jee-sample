@@ -13,9 +13,7 @@ public class DBSetup {
 	public static DBSetup getDBSetup() {
 		return new DBSetup();
 	}
-	public DBSetup() {
-		initialiseDatabase();
-	}
+
 	public String getEnvVariables() {
 		StringBuffer buf = new StringBuffer();
 		buf.append("<p>" + System.getenv("MYSQL_USER") + "/p>");
@@ -41,22 +39,32 @@ public class DBSetup {
 		}catch(Exception e){ buf.append(e);}//System.out.println(e);}  
 		return buf.toString();
 	}  
-	public void initialiseDatabase() {
+	public String initialiseDatabase() {
+		StringBuffer buf = new StringBuffer("<p>initialiseDatabase</p>");
+
 		// Create user
 		// Create Student table
 		// Create Practice table
 		// Create DriveTime table
 		try {
 			this.conn = DriverManager.getConnection(server, rootUser, rootPassword);
+			buf.append("<p>createStudentTable</p>");
 			createStudentTable();
-			addStudentRecord(1,"Fred","Bloggs",37);
+			buf.append("<p>addStudentRecord</p>");
+
+			buf.append(addStudentRecord(1,"Fred","Bloggs",37));
 			conn.close();  
-		}catch(Exception e){ e.printStackTrace();}  
+		}
+		catch(Exception e)
+		{ 
+			buf.append(e);
+		}  
+		return buf.toString();
 
 	}
 
 
-	private void addStudentRecord(int id, String firstName, String familyName, int age) throws SQLException {
+	private String addStudentRecord(int id, String firstName, String familyName, int age) throws SQLException {
 		PreparedStatement statement = conn.prepareStatement("INSERT INTO STUDENT ('id','first','last','age') VALUES (?,?,?,?)");
 
 		statement.setInt(1,id);
@@ -69,6 +77,7 @@ public class DBSetup {
 		if (affectedRows == 0) {
 			throw new SQLException("Creating user failed, no rows affected.");
 		}
+		return "Affected rows = " + affectedRows;
 	}
 
 
