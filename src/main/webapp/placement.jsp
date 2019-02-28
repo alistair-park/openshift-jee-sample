@@ -11,6 +11,7 @@
 
 <H1>WebApp JSP Test Page</H1>
 <%="Hello World "%>
+<%=DBSetup.getDBSetup().testConnection()%>
 
 </BODY>
 </HTML>
