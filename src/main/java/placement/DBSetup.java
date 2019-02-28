@@ -10,7 +10,6 @@ public class DBSetup {
 	public String testConnection() {
 		StringBuffer buf = new StringBuffer();
 		try {
-			Class.forName("com.mysql.jdbc.Driver");  
 			Connection con=DriverManager.getConnection(  
 					"jdbc:mysql://localhost:3306/placement","placement","RFH2019!");  
 			//here sonoo is database name, root is username and password  
