@@ -112,7 +112,7 @@ public class DBSetup {
 			    "id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"+
 			    "gp VARCHAR(255) NOT NULL,"+
 			    "practiceName VARCHAR(255) NOT NULL,"+
-			    "postcode VARCHAR2(10),"+
+			    "postcode VARCHAR(10),"+
 			    "places INT)";
 		stmt.executeUpdate(sql);
 	}
@@ -124,8 +124,8 @@ public class DBSetup {
 			    "ref VARCHAR(6) NOT NULL,"+
 			    "first VARCHAR(255) NOT NULL,"+
 			    "last VARCHAR(255) NOT NULL,"+
-			    "postcode VARCHAR2(10),"+
-			    "allocatedPractice VARCHAR2(100))";
+			    "postcode VARCHAR(10),"+
+			    "allocatedPractice VARCHAR(100))";
 		stmt.executeUpdate(sql);
 	}
 }
