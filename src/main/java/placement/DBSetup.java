@@ -89,7 +89,7 @@ public class DBSetup {
 		return "Affected rows = " + affectedRows;
 	}
 	private String addStudentRecord(String ref, String firstName, String familyName, String postCode) throws SQLException {
-		PreparedStatement statement = conn.prepareStatement("INSERT INTO STUDENT (ref, first,last, postcode) VALUES (?,?,?)");
+		PreparedStatement statement = conn.prepareStatement("INSERT INTO STUDENT (ref, first,last, postcode) VALUES (?,?,?,?)");
 
 		statement.setString(1, ref);
 		statement.setString(2, firstName);
