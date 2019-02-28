@@ -24,7 +24,7 @@ public class DBSetup {
 		buf.append("<p>" + System.getenv("MYSQL_DATABASE") + "/p>");
 		return buf.toString();
 	}
-	public void testConnection() {
+	public String testConnection() {
 		StringBuffer buf = new StringBuffer();
 		try {
             this.conn = DriverManager.getConnection(server, rootUser, rootPassword);
@@ -38,7 +38,7 @@ public class DBSetup {
 				buf.append(rs.getString(1));  
 			conn.close();  
 		}catch(Exception e){ buf.append(e);}//System.out.println(e);}  
-		System.out.println(buf.toString());
+		return buf.toString();
 	}  
 	public void initialiseDatabase() {
 		// Create user
