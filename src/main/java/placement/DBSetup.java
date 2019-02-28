@@ -109,25 +109,23 @@ public class DBSetup {
 		Statement stmt=conn.createStatement();  
 		String sql = 
 		"CREATE TABLE IF NOT EXISTS PRACTICE ("+
-			    "id INT NOT NULL AUTO_INCREMENT,"+
+			    "id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"+
 			    "gp VARCHAR(255) NOT NULL,"+
 			    "practiceName VARCHAR(255) NOT NULL,"+
 			    "postcode VARCHAR2(10),"+
-			    "places INT,"+
-			    "PRIMARY KEY (id))";
+			    "places INT)";
 		stmt.executeUpdate(sql);
 	}
 	private void createStudentTable() throws SQLException {
 		Statement stmt=conn.createStatement();  
 		String sql = 
 		"CREATE TABLE IF NOT EXISTS STUDENT ("+
-			    "id INT NOT NULL AUTO_INCREMENT,"+
+			    "id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"+
 			    "ref VARCHAR(6) NOT NULL,"+
 			    "first VARCHAR(255) NOT NULL,"+
 			    "last VARCHAR(255) NOT NULL,"+
 			    "postcode VARCHAR2(10),"+
-			    "allocatedPractice VARCHAR2(100),"+
-			    "PRIMARY KEY (id))";
+			    "allocatedPractice VARCHAR2(100))";
 		stmt.executeUpdate(sql);
 	}
 }
