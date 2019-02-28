@@ -53,6 +53,7 @@ public class DBSetup {
 			buf.append("<p>addStudentRecord</p>");
 
 			buf.append(addStudentRecord("Fred","Bloggs",37));
+			buf.append(addStudentRecord("John","Doe",43));
 			conn.close();  
 		}
 		catch(Exception e)
