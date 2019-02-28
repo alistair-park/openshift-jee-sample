@@ -10,9 +10,8 @@
 <BODY>
 
 <H1>WebApp JSP Test Page</H1>
-<%="Hello World "%>
-<%=DBSetup.getDBSetup().initialiseDatabase() %>
-<%=DBSetup.getDBSetup().testConnection() %>
+
+<%=DBSetup.getDBSetup().testConnection()%>
 
 </BODY>
 </HTML>

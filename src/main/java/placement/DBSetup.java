@@ -13,6 +13,9 @@ public class DBSetup {
 	public static DBSetup getDBSetup() {
 		return new DBSetup();
 	}
+	public DBSetup() {
+		initialiseDatabase();
+	}
 	public String getEnvVariables() {
 		StringBuffer buf = new StringBuffer();
 		buf.append("<p>" + System.getenv("MYSQL_USER") + "/p>");
@@ -21,7 +24,7 @@ public class DBSetup {
 		buf.append("<p>" + System.getenv("MYSQL_DATABASE") + "/p>");
 		return buf.toString();
 	}
-	public String testConnection() {
+	public void testConnection() {
 		StringBuffer buf = new StringBuffer();
 		try {
             this.conn = DriverManager.getConnection(server, rootUser, rootPassword);
@@ -35,7 +38,7 @@ public class DBSetup {
 				buf.append(rs.getString(1));  
 			conn.close();  
 		}catch(Exception e){ buf.append(e);}//System.out.println(e);}  
-		return buf.toString();
+		System.out.println(buf.toString());
 	}  
 	public void initialiseDatabase() {
 		// Create user
@@ -57,7 +60,7 @@ public class DBSetup {
 
 	     stmt.executeUpdate(sql);
 	     conn.close();  
-		}catch(Exception e){ System.out.println(e);}  
+		}catch(Exception e){ e.printStackTrace();}  
 
 
 	}
