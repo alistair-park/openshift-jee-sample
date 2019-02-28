@@ -52,7 +52,7 @@ public class DBSetup {
 			createStudentTable();
 			buf.append("<p>addStudentRecord</p>");
 
-			buf.append(addStudentRecord(1,"Fred","Bloggs",37));
+			buf.append(addStudentRecord("Fred","Bloggs",37));
 			conn.close();  
 		}
 		catch(Exception e)
