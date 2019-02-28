@@ -30,7 +30,7 @@ public class DBSetup {
 //					"jdbc:mysql://localhost:3306/placement","placement","RFH2019!");  
 //			//here sonoo is database name, root is username and password  
 			Statement stmt=conn.createStatement();  
-			ResultSet rs=stmt.executeQuery("show tables");  
+			ResultSet rs=stmt.executeQuery("select * from REGISTRATION");  
 			while(rs.next())  
 				buf.append(rs.getString(1));  
 			conn.close();  
@@ -39,9 +39,26 @@ public class DBSetup {
 	}  
 	public void initialiseDatabase() {
 		// Create user
-		// Grant permissions
 		// Create Student table
 		// Create Practice table
 		// Create DriveTime table
+		createStudentTable();
+	}
+	private void createStudentTable() {
+		try {
+            this.conn = DriverManager.getConnection(server, rootUser, rootPassword);
+			Statement stmt=conn.createStatement();  
+			  String sql = "CREATE TABLE REGISTRATION " +
+	                  "(id INTEGER not NULL, " +
+	                  " first VARCHAR(255), " + 
+	                  " last VARCHAR(255), " + 
+	                  " age INTEGER, " + 
+	                  " PRIMARY KEY ( id ))"; 
+
+	     stmt.executeUpdate(sql);
+	     conn.close();  
+		}catch(Exception e){ System.out.println(e);}  
+
+
 	}
 }

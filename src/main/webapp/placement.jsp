@@ -11,7 +11,8 @@
 
 <H1>WebApp JSP Test Page</H1>
 <%="Hello World "%>
-<%=DBSetup.getDBSetup().getEnvVariables() %>
+<%=DBSetup.getDBSetup().initialiseDatabase() %>
+<%=DBSetup.getDBSetup().testConnection() %>
 
 </BODY>
 </HTML>
