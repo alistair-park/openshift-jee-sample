@@ -52,8 +52,8 @@ public class DBSetup {
 			createStudentTable();
 			buf.append("<p>addStudentRecord</p>");
 
-			buf.append(addStudentRecord("Fred","Bloggs",37));
-			buf.append(addStudentRecord("John","Doe",43));
+			buf.append(addStudentRecord(1, "Fred","Bloggs",37));
+			buf.append(addStudentRecord(2, "John","Doe",43));
 			conn.close();  
 		}
 		catch(Exception e)
@@ -65,12 +65,13 @@ public class DBSetup {
 	}
 
 
-	private String addStudentRecord(String firstName, String familyName, int age) throws SQLException {
-		PreparedStatement statement = conn.prepareStatement("INSERT INTO REGISTRATION (first,last,age) VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS);
+	private String addStudentRecord(int id, String firstName, String familyName, int age) throws SQLException {
+		PreparedStatement statement = conn.prepareStatement("INSERT INTO REGISTRATION (id, first,last,age) VALUES (?,?,?,?)");
 
-		statement.setString(1, firstName);
-		statement.setString(2, familyName);
-		statement.setInt(3, age);
+		statement.setInt(1, id);
+		statement.setString(2, firstName);
+		statement.setString(3, familyName);
+		statement.setInt(4, age);
 
 		int affectedRows = statement.executeUpdate();
 
@@ -85,7 +86,7 @@ public class DBSetup {
 		Statement stmt=conn.createStatement();  
 		String sql = 
 		"CREATE TABLE IF NOT EXISTS REGISTRATION ("+
-			    "id INT AUTO_INCREMENT,"+
+			    "id INT NOT NULL,"+
 			    "first VARCHAR(255) NOT NULL,"+
 			    "last VARCHAR(255) NOT NULL,"+
 			    "age INT,"+
