@@ -64,13 +64,12 @@ public class DBSetup {
 	}
 
 
-	private String addStudentRecord(int id, String firstName, String familyName, int age) throws SQLException {
-		PreparedStatement statement = conn.prepareStatement("INSERT INTO STUDENT ('id','first','last','age') VALUES (?,?,?,?)");
+	private String addStudentRecord(String firstName, String familyName, int age) throws SQLException {
+		PreparedStatement statement = conn.prepareStatement("INSERT INTO STUDENT ('first','last','age') VALUES (?,?,?)");
 
-		statement.setInt(1,id);
-		statement.setString(2, firstName);
-		statement.setString(3, familyName);
-		statement.setInt(4, age);
+		statement.setString(1, firstName);
+		statement.setString(2, familyName);
+		statement.setInt(3, age);
 
 		int affectedRows = statement.executeUpdate();
 
@@ -83,13 +82,13 @@ public class DBSetup {
 
 	private void createStudentTable() throws SQLException {
 		Statement stmt=conn.createStatement();  
-		String sql = "CREATE OR REPLACE TABLE REGISTRATION " +
-				"(id INTEGER not NULL, " +
-				" first VARCHAR(255), " + 
-				" last VARCHAR(255), " + 
-				" age INTEGER, " + 
-				" PRIMARY KEY ( id ))"; 
-
+		String sql = 
+		"CREATE TABLE IF NOT EXISTS REGISTRATION ("+
+			    "id INT AUTO_INCREMENT,"+
+			    "first VARCHAR(255) NOT NULL,"+
+			    "last VARCHAR(255) NOT NULL,"+
+			    "age INT,"+
+			    "PRIMARY KEY (id))";
 		stmt.executeUpdate(sql);
 	}
 }
