@@ -10,7 +10,10 @@
 
 <H1>WebApp JSP Test Page</H1>
 
-<%=DBSetup.getDBSetup().testConnection()%>
+  <%
+  	DBSetup db = new DBSetup();
+	out.print(db.testConnection());
+  %>
 
 </BODY>
 </HTML>
