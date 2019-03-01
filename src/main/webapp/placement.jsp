@@ -47,7 +47,7 @@
 	    	request.onreadystatechange = function(){
 	      		if(this.readyState == 4 && this.status == 200){
 	         		var response = this.responseText;
-		  			document.getElementById("mobiles").innerHTML=response;
+		  			document.getElementById("info").innerHTML=response;
 	       		}
             };
             request.open("GET", "clear.jsp", true);

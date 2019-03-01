@@ -23,11 +23,14 @@ public class DBSetup {
 		return buf.toString();
 	}
 	public String clear() throws SQLException {
-		Statement stmt=conn.createStatement();  
-		stmt.executeUpdate("TRUNCATE TABLE STUDENT");
-		stmt=conn.createStatement();  
-		stmt.executeUpdate("TRUNCATE TABLE PRACTICE");
-		return "Tables truncated";
+		StringBuffer buf = new StringBuffer("Clearing tables");
+		try {
+			Statement stmt=conn.createStatement();  
+			stmt.executeUpdate("TRUNCATE TABLE STUDENT");
+			stmt=conn.createStatement();  
+			stmt.executeUpdate("TRUNCATE TABLE PRACTICE");
+		}catch(Exception e){ buf.append(e);}
+		return buf.toString();	
 	}
 
 	public String testConnection() {
@@ -44,7 +47,7 @@ public class DBSetup {
 			while(rs.next())  
 				buf.append("<p>"+ rs.getString(2) + "</p>");  
 
-			 rs=stmt.executeQuery("select * from PRACTICE");
+			rs=stmt.executeQuery("select * from PRACTICE");
 			buf.append("<p>Executed query</p>/r/n");
 			while(rs.next())  
 				buf.append("<p>"+ rs.getString(2) + "</p>");  
@@ -116,24 +119,24 @@ public class DBSetup {
 	private void createPracticeTable() throws SQLException {
 		Statement stmt=conn.createStatement();  
 		String sql = 
-		"CREATE TABLE IF NOT EXISTS PRACTICE ("+
-			    "id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"+
-			    "gp VARCHAR(255) NOT NULL,"+
-			    "practiceName VARCHAR(255) NOT NULL,"+
-			    "postcode VARCHAR(10),"+
-			    "places INT)";
+				"CREATE TABLE IF NOT EXISTS PRACTICE ("+
+						"id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"+
+						"gp VARCHAR(255) NOT NULL,"+
+						"practiceName VARCHAR(255) NOT NULL,"+
+						"postcode VARCHAR(10),"+
+						"places INT)";
 		stmt.executeUpdate(sql);
 	}
 	private void createStudentTable() throws SQLException {
 		Statement stmt=conn.createStatement();  
 		String sql = 
-		"CREATE TABLE IF NOT EXISTS STUDENT ("+
-			    "id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"+
-			    "ref VARCHAR(6) NOT NULL,"+
-			    "first VARCHAR(255) NOT NULL,"+
-			    "last VARCHAR(255) NOT NULL,"+
-			    "postcode VARCHAR(10),"+
-			    "allocatedPractice VARCHAR(100))";
+				"CREATE TABLE IF NOT EXISTS STUDENT ("+
+						"id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"+
+						"ref VARCHAR(6) NOT NULL,"+
+						"first VARCHAR(255) NOT NULL,"+
+						"last VARCHAR(255) NOT NULL,"+
+						"postcode VARCHAR(10),"+
+						"allocatedPractice VARCHAR(100))";
 		stmt.executeUpdate(sql);
 	}
 }
