@@ -18,6 +18,7 @@
             };
             request.open("GET", "intialiseDB.jsp", true);
 	   	 	request.send();
+	   	 	_submit();
 	    }
 	    function initialiseDB() {
          	clearResponse();
@@ -30,6 +31,7 @@
             };
             request.open("GET", "intialiseDB.jsp", true);
 	   	 	request.send();
+	   	 	_submit();
 	    }
 	    function testConnection() {
          	clearResponse();
@@ -42,6 +44,7 @@
             };
             request.open("GET", "testConnection.jsp", true);
 	   	 	request.send();
+	   	 	_submit();
 	    }
 	    
 	    
@@ -56,17 +59,22 @@
             };
             request.open("GET", "clear.jsp", true);
 	   	 	request.send();
+	   	 	_submit();
          }
          function clearResponse() {
          	document.getElementById("info").innerHTML="";
          
          }
+        function _submit() {
+            document.getElementById('placementform').submit();
+        }
       </script>
 </HEAD>
 <BODY>
 
 <H1>WebApp JSP Test Page</H1>
 
+  <form id="placementform" action = "placement.jsp" method="POST">
   
   <button onclick="initialiseDB()">Initialise DB</button>
   
@@ -74,6 +82,7 @@
 
   <button onclick="clear()">Clear</button>
   <div id=info></div>
+  </form>
   
 </BODY>
 </HTML>
