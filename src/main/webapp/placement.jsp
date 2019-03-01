@@ -7,7 +7,42 @@
 	<%@ page import="com.mysql.jdbc.*" %>
 	
 	    <script type="text/javascript">
-         function fetch(){
+	    function initialiseDB() {
+	    	var request = new XMLHttpRequest();
+	    	request.onreadystatechange = function(){
+	      		if(this.readyState == 4 && this.status == 200){
+	         		var response = this.responseText;
+		  			document.getElementById("info").innerHTML=response;
+	       		}
+            };
+            request.open("GET", "intialiseDB.jsp", true);
+	   	 	request.send();
+	    }
+	    function initialiseDB() {
+	    	var request = new XMLHttpRequest();
+	    	request.onreadystatechange = function(){
+	      		if(this.readyState == 4 && this.status == 200){
+	         		var response = this.responseText;
+		  			document.getElementById("info").innerHTML=response;
+	       		}
+            };
+            request.open("GET", "intialiseDB.jsp", true);
+	   	 	request.send();
+	    }
+	    function testConnection() {
+	    	var request = new XMLHttpRequest();
+	    	request.onreadystatechange = function(){
+	      		if(this.readyState == 4 && this.status == 200){
+	         		var response = this.responseText;
+		  			document.getElementById("info").innerHTML=response;
+	       		}
+            };
+            request.open("GET", "testConnection.jsp", true);
+	   	 	request.send();
+	    }
+	    
+	    
+         function clear(){
 	    	var request = new XMLHttpRequest();
 	    	request.onreadystatechange = function(){
 	      		if(this.readyState == 4 && this.status == 200){
@@ -15,7 +50,7 @@
 		  			document.getElementById("mobiles").innerHTML=response;
 	       		}
             };
-            request.open("GET", "details.jsp", true);
+            request.open("GET", "clear.jsp", true);
 	   	 	request.send();
          }
       </script>
@@ -24,14 +59,14 @@
 
 <H1>WebApp JSP Test Page</H1>
 
-  <%
-  	DBSetup db = new DBSetup();
-	out.print(db.initialiseDatabase());
-	out.print(db.testConnection());
-  %>
   
-  <button onclick="fetch()">Show Details</button>
-      <div id="mobiles"></div>
+  <button onclick="initialiseDB()">Initialise DB</button>
+  
+  <button onclick="testConnection()">Test Connection</button>
+
+  <button onclick="clear()">Clear</button>
+  <div id=info></div>
+  
 </BODY>
 </HTML>
 

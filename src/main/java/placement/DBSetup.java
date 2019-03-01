@@ -22,6 +22,14 @@ public class DBSetup {
 		buf.append("<p>" + System.getenv("MYSQL_DATABASE") + "/p>");
 		return buf.toString();
 	}
+	public String clear() throws SQLException {
+		Statement stmt=conn.createStatement();  
+		stmt.executeUpdate("TRUNCATE TABLE STUDENT");
+		stmt=conn.createStatement();  
+		stmt.executeUpdate("TRUNCATE TABLE PRACTICE");
+		return "Tables truncated";
+	}
+
 	public String testConnection() {
 		StringBuffer buf = new StringBuffer("<p>Hello world</p>");
 		try {
