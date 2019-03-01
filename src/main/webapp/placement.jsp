@@ -20,19 +20,7 @@
 	   	 	request.send();
 	   	 	_submit();
 	    }
-	    function initialiseDB() {
-         	clearResponse();
-	    	var request = new XMLHttpRequest();
-	    	request.onreadystatechange = function(){
-	      		if(this.readyState == 4 && this.status == 200){
-	         		var response = this.responseText;
-		  			document.getElementById("info").innerHTML=response;
-	       		}
-            };
-            request.open("GET", "intialiseDB.jsp", true);
-	   	 	request.send();
-	   	 	_submit();
-	    }
+	  
 	    function testConnection() {
          	clearResponse();
 	    	var request = new XMLHttpRequest();
@@ -81,8 +69,26 @@
   <button onclick="testConnection()">Test Connection</button>
 
   <button onclick="clear()">Clear</button>
-  <div id=info></div>
-  </form>
+  
+       <jsp:useBean id = "students" class = "placement.DBSetup"> 
+         <jsp:setProperty name = "students" property = "firstName" value = "Zara"/>
+         <jsp:setProperty name = "students" property = "lastName" value = "Ali"/>
+         <jsp:setProperty name = "students" property = "age" value = "10"/>
+      </jsp:useBean>
+
+      <p>Student First Name: 
+         <jsp:getProperty name = "students" property = "firstName"/>
+      </p>
+      
+      <p>Student Last Name: 
+         <jsp:getProperty name = "students" property = "lastName"/>
+      </p>
+      
+      <p>Student Age: 
+         <jsp:getProperty name = "students" property = "age"/>
+      </p>
+ 
+</form>
   
 </BODY>
 </HTML>
