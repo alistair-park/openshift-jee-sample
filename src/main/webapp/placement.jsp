@@ -70,7 +70,7 @@ hello
 
   <button onclick="clear()">Clear</button>
   
-  xxx
+  xxx - test
   
        <jsp:useBean id = "students" class = "placement.DBSetup"> 
          <jsp:setProperty name = "students" property = "firstName" value = "Zara"/>
