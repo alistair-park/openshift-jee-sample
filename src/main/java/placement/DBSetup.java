@@ -119,8 +119,10 @@ public class DBSetup {
 
 	private void createPracticeTable() throws SQLException {
 		Statement stmt=conn.createStatement();  
+		stmt.execute("DROP TABLE IF EXISTS PRACTICE");
+		stmt=conn.createStatement();
 		String sql = 
-				"DROP TABLE IF EXISTS PRACTICE; CREATE TABLE PRACTICE ("+
+				"CREATE TABLE PRACTICE ("+
 						"id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"+
 						"gp VARCHAR(255) NOT NULL,"+
 						"practiceName VARCHAR(255) NOT NULL,"+
@@ -130,8 +132,10 @@ public class DBSetup {
 	}
 	private void createStudentTable() throws SQLException {
 		Statement stmt=conn.createStatement();  
+		stmt.execute("DROP TABLE IF EXISTS STUDENT");
+		stmt=conn.createStatement();
 		String sql = 
-				"DROP TABLE IF EXISTS STUDENT; CREATE TABLE STUDENT ("+
+				"CREATE TABLE STUDENT ("+
 						"id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"+
 						"ref VARCHAR(6) NOT NULL,"+
 						"first VARCHAR(255) NOT NULL,"+
