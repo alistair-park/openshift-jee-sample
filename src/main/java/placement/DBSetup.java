@@ -25,10 +25,13 @@ public class DBSetup {
 	public String clear() throws SQLException {
 		StringBuffer buf = new StringBuffer("Clearing tables");
 		try {
+			this.conn = DriverManager.getConnection(server, rootUser, rootPassword);
+
 			Statement stmt=conn.createStatement();  
 			stmt.executeUpdate("TRUNCATE TABLE STUDENT");
 			stmt=conn.createStatement();  
 			stmt.executeUpdate("TRUNCATE TABLE PRACTICE");
+			conn.close();
 		}catch(Exception e){ buf.append(e);}
 		return buf.toString();	
 	}
