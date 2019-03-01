@@ -69,27 +69,20 @@ hello
   <button onclick="testConnection()">Test Connection</button>
 
   <button onclick="clear()">Clear</button>
-  
-  xxx - test
-  
-       <jsp:useBean id = "students" class = "placement.Student"> 
-         <jsp:setProperty name = "students" property = "firstName" value = "Zara"/>
-         <jsp:setProperty name = "students" property = "lastName" value = "Ali"/>
-         <jsp:setProperty name = "students" property = "age" value = "10"/>
-      </jsp:useBean>
+  <table>  
+	<% 
+		DBSetup db = new DBSetup();
+		List<Student> students = db.getStudents();
+        Iterator<Student> studentInterator = students.iterator();
+        while (studentInterator.hasNext()) {
+            Student student = studentInterator.next();
+            %>
+            <TR><TD>
+            1
+            </TD></TR>
+            <%}%>  
+  </table>
 
-      <p>Student First Name: 
-         <jsp:getProperty name = "students" property = "firstName"/>
-      </p>
-      
-      <p>Student Last Name: 
-         <jsp:getProperty name = "students" property = "lastName"/>
-      </p>
-      
-      <p>Student Age: 
-         <jsp:getProperty name = "students" property = "age"/>
-      </p>
- xxx
 </form>
   
 </BODY>

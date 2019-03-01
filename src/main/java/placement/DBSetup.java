@@ -1,5 +1,7 @@
 package placement;
-import java.sql.*;  
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;  
 
 
 public class DBSetup {
@@ -58,6 +60,27 @@ public class DBSetup {
 		}catch(Exception e){ buf.append(e);}//System.out.println(e);}  
 		return buf.toString();
 	}  
+	public List<Student> getStudents() {
+		List<Student> students = new ArrayList<>();
+		Student student;
+		try {
+			this.conn = DriverManager.getConnection(server, rootUser, rootPassword);
+			Statement stmt=conn.createStatement();  
+			ResultSet rs=stmt.executeQuery("select * from STUDENT");
+			while(rs.next())  {
+				student = new Student(
+							rs.getInt("id"),
+							rs.getString("ref"),
+							rs.getString("first"),
+							rs.getString("last"),
+							rs.getString("postcode"),
+							rs.getString("allocatedPractice"));
+				students.add(student);
+			}
+			conn.close();  
+		}catch(Exception e){ e.printStackTrace();}
+		return students;
+	}
 	public String initialiseDatabase() {
 		StringBuffer buf = new StringBuffer("<p>initialiseDatabase</p>");
 
