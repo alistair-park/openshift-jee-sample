@@ -67,10 +67,8 @@ public class DBSetup {
 		// Create DriveTime table
 		try {
 			this.conn = DriverManager.getConnection(server, rootUser, rootPassword);
-			buf.append("<p>createStudentTable</p>");
 			createStudentTable();
 			createPracticeTable();
-			buf.append("<p>addStudentRecord</p>");
 
 			buf.append(addStudentRecord("B05","Fred","Bloggs","W1D 4LR"));
 			buf.append(addStudentRecord("B05","John","Doe","W127AP"));
@@ -122,7 +120,7 @@ public class DBSetup {
 	private void createPracticeTable() throws SQLException {
 		Statement stmt=conn.createStatement();  
 		String sql = 
-				"CREATE TABLE IF NOT EXISTS PRACTICE ("+
+				"DROP TABLE IF EXISTS PRACTICE; CREATE TABLE PRACTICE ("+
 						"id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"+
 						"gp VARCHAR(255) NOT NULL,"+
 						"practiceName VARCHAR(255) NOT NULL,"+
@@ -133,7 +131,7 @@ public class DBSetup {
 	private void createStudentTable() throws SQLException {
 		Statement stmt=conn.createStatement();  
 		String sql = 
-				"CREATE TABLE IF NOT EXISTS STUDENT ("+
+				"DROP TABLE IF EXISTS STUDENT; CREATE TABLE STUDENT ("+
 						"id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"+
 						"ref VARCHAR(6) NOT NULL,"+
 						"first VARCHAR(255) NOT NULL,"+
