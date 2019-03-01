@@ -8,6 +8,7 @@
 	
 	    <script type="text/javascript">
 	    function initialiseDB() {
+         	clearResponse();
 	    	var request = new XMLHttpRequest();
 	    	request.onreadystatechange = function(){
 	      		if(this.readyState == 4 && this.status == 200){
@@ -19,6 +20,7 @@
 	   	 	request.send();
 	    }
 	    function initialiseDB() {
+         	clearResponse();
 	    	var request = new XMLHttpRequest();
 	    	request.onreadystatechange = function(){
 	      		if(this.readyState == 4 && this.status == 200){
@@ -30,6 +32,7 @@
 	   	 	request.send();
 	    }
 	    function testConnection() {
+         	clearResponse();
 	    	var request = new XMLHttpRequest();
 	    	request.onreadystatechange = function(){
 	      		if(this.readyState == 4 && this.status == 200){
@@ -43,6 +46,7 @@
 	    
 	    
          function clear(){
+         	clearResponse();
 	    	var request = new XMLHttpRequest();
 	    	request.onreadystatechange = function(){
 	      		if(this.readyState == 4 && this.status == 200){
@@ -52,6 +56,10 @@
             };
             request.open("GET", "clear.jsp", true);
 	   	 	request.send();
+         }
+         function clearResponse() {
+         	document.getElementById("info").innerHTML="";
+         
          }
       </script>
 </HEAD>
