@@ -78,7 +78,13 @@ hello
             Student student = studentInterator.next();
             %>
             <TR><TD>
+            <%out.print(student.getRef());%>
+            </TD><TD>
             <%out.print(student.getFirst());%>
+            </TD><TD>
+            <%out.print(student.getLast());%>
+           </TD><TD>
+            <%out.print(student.getPostcode());%>
             </TD></TR>
             <%}%>  
   </table>
