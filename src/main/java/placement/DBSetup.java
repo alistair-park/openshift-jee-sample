@@ -119,7 +119,7 @@ public class DBSetup {
 
 	private void createPracticeTable() throws SQLException {
 		Statement stmt=conn.createStatement();  
-		stmt.execute("DROP TABLE IF EXISTS PRACTICE");
+		stmt.executeUpdate("DROP TABLE IF EXISTS PRACTICE");
 		stmt=conn.createStatement();
 		String sql = 
 				"CREATE TABLE PRACTICE ("+
@@ -132,7 +132,7 @@ public class DBSetup {
 	}
 	private void createStudentTable() throws SQLException {
 		Statement stmt=conn.createStatement();  
-		stmt.execute("DROP TABLE IF EXISTS STUDENT");
+		stmt.executeUpdate("DROP TABLE IF EXISTS STUDENT");
 		stmt=conn.createStatement();
 		String sql = 
 				"CREATE TABLE STUDENT ("+
