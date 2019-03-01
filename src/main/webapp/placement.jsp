@@ -61,7 +61,7 @@
 <BODY>
 
 <H1>WebApp JSP Test Page</H1>
-
+hello
   <form id="placementform" action = "placement.jsp" method="POST">
   
   <button onclick="initialiseDB()">Initialise DB</button>
