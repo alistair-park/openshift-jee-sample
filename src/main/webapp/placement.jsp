@@ -78,7 +78,7 @@ hello
             Student student = studentInterator.next();
             %>
             <TR><TD>
-            1
+            <% student.getId()%>
             </TD></TR>
             <%}%>  
   </table>
