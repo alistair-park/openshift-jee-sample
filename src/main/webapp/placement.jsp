@@ -70,6 +70,8 @@
 
   <button onclick="clear()">Clear</button>
   
+  xxx
+  
        <jsp:useBean id = "students" class = "placement.DBSetup"> 
          <jsp:setProperty name = "students" property = "firstName" value = "Zara"/>
          <jsp:setProperty name = "students" property = "lastName" value = "Ali"/>
@@ -87,7 +89,7 @@
       <p>Student Age: 
          <jsp:getProperty name = "students" property = "age"/>
       </p>
- 
+ xxx
 </form>
   
 </BODY>
