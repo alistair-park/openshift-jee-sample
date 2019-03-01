@@ -26,8 +26,9 @@
 
   <button onclick="_submit('clear')">Clear</button>
   <input type="hidden" id="buttonId"  name = "mybutton"  value=""/>
-[] <%out.print(session.getAttribute("mybutton"));%> []
-[] <%out.print(session.getAttribute("buttonId"));%> []
+[] <%out.print(request.getParameter("mybutton"));%> []
+[] <%out.print(request.getParameter("buttonId"));%> []
+
   <table>  
 	<% 
 		DBSetup db = new DBSetup();
