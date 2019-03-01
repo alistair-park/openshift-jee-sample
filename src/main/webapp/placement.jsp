@@ -9,6 +9,7 @@
 	    <script type="text/javascript">
         function _submit(buttonName) {
 	     	document.getElementById('buttonId').value=buttonName;
+	     	alert(buttonName);
             document.getElementById('placementform').submit();
         }
       </script>
