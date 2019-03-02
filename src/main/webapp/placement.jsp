@@ -47,6 +47,9 @@
 		else if ("create".equals(result)) {
 			db.create(databaseName);
 		}
+		else if ("initialiseDB".equals(result)) {
+			db.initialiseDatabase();
+		}
 
 		List<Student> students = db.getStudents();
         Iterator<Student> studentInterator = students.iterator();
