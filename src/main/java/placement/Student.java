@@ -7,13 +7,17 @@ public class Student {
 	private String last;
 	private String postcode;
 	private String allocatedPractice;
-	
-	public Student(int id, String ref, String first, String last, String postcode, String allocatedPractice) {
-		setId(id);
+
+	public Student(String ref, String first, String last, String postcode) {
 		setRef(ref);
 		setFirst(first);
 		setLast(last);
 		setPostcode(postcode);
+	}
+	
+	public Student(int id, String ref, String first, String last, String postcode, String allocatedPractice) {
+		this(ref, first, last, postcode);
+		setId(id);
 		setAllocatedPractice(allocatedPractice);
 	}
 

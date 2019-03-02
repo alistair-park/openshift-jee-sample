@@ -1,6 +1,7 @@
 package placement;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;  
 
 
@@ -140,6 +141,16 @@ public class DBSetup {
 			throw new SQLException("Creating user failed, no rows affected.");
 		}
 		return "Affected rows = " + affectedRows;
+	}
+	public void addStudentRecords(ArrayList<Student> students) throws SQLException {
+		if (students != null) {
+			Iterator<Student> studentIterator = students.iterator();
+			Student s;
+			while (studentIterator.hasNext()) {
+				s = studentIterator.next();
+				addStudentRecord(s.getRef(), s.getFirst(), s.getLast(), s.getPostcode());
+			}
+		}
 	}
 
 
