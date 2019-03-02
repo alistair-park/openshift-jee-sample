@@ -81,6 +81,9 @@ public class DBSetup {
 		}catch(Exception e){ e.printStackTrace();}
 		return students;
 	}
+	public void create(String databaseName) {
+		
+	}
 	public String initialiseDatabase() {
 		StringBuffer buf = new StringBuffer("<p>initialiseDatabase</p>");
 
