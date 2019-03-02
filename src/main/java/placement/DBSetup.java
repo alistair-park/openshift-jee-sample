@@ -65,8 +65,8 @@ public class DBSetup {
 		List<Student> students = new ArrayList<>();
 		Student student;
 		try {
-			this.conn = DriverManager.getConnection(server, rootUser, rootPassword);
-			Statement stmt=conn.createStatement();  
+			Connection myConn = DriverManager.getConnection(server, rootUser, rootPassword);
+			Statement stmt=myConn.createStatement();  
 			ResultSet rs=stmt.executeQuery("select * from STUDENT");
 			while(rs.next())  {
 				student = new Student(
@@ -78,7 +78,7 @@ public class DBSetup {
 							rs.getString("allocatedPractice"));
 				students.add(student);
 			}
-			conn.close();  
+			myConn.close();  
 		}catch(Exception e){ e.printStackTrace();}
 		return students;
 	}
