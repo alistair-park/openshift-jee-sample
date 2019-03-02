@@ -11,7 +11,7 @@ public class DBSetup {
 	private String rootPassword = "RFH2019!";//System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD");
 	private String appUser = "placement";//System.getenv("OPENSHIFT_MYSQL_DB_USERNAME");
 	private String appPassword = "RFH2019!";//System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD");
-	private Connection conn;
+//	private Connection conn;
 
 	public static DBSetup getDBSetup() {
 		return new DBSetup();
@@ -28,7 +28,7 @@ public class DBSetup {
 	public String clear() throws SQLException {
 		StringBuffer buf = new StringBuffer("Clearing tables");
 		try {
-			this.conn = DriverManager.getConnection(server, rootUser, rootPassword);
+			Connection conn = DriverManager.getConnection(server, rootUser, rootPassword);
 
 			Statement stmt=conn.createStatement();  
 			stmt.executeUpdate("TRUNCATE TABLE STUDENT");
@@ -42,7 +42,7 @@ public class DBSetup {
 	public String testConnection() {
 		StringBuffer buf = new StringBuffer("<p>Hello world</p>");
 		try {
-			this.conn = DriverManager.getConnection(server, rootUser, rootPassword);
+			Connection conn = DriverManager.getConnection(server, rootUser, rootPassword);
 
 			//			Connection con=DriverManager.getConnection(  
 			//					"jdbc:mysql://localhost:3306/placement","placement","RFH2019!");  
@@ -65,8 +65,8 @@ public class DBSetup {
 		List<Student> students = new ArrayList<>();
 		Student student;
 		try {
-			Connection myConn = DriverManager.getConnection(server, rootUser, rootPassword);
-			Statement stmt=myConn.createStatement();  
+			Connection conn = DriverManager.getConnection(server, rootUser, rootPassword);
+			Statement stmt=conn.createStatement();  
 			ResultSet rs=stmt.executeQuery("select * from STUDENT");
 			while(rs.next())  {
 				student = new Student(
@@ -78,7 +78,7 @@ public class DBSetup {
 							rs.getString("allocatedPractice"));
 				students.add(student);
 			}
-			myConn.close();  
+			conn.close();  
 		}catch(Exception e){ e.printStackTrace();}
 		return students;
 	}
@@ -93,14 +93,14 @@ public class DBSetup {
 		// Create Practice table
 		// Create DriveTime table
 		try {
-			this.conn = DriverManager.getConnection(server, rootUser, rootPassword);
-			createStudentTable();
-			createPracticeTable();
+			Connection conn = DriverManager.getConnection(server, rootUser, rootPassword);
+			createStudentTable(conn);
+			createPracticeTable(conn);
 
-			buf.append(addStudentRecord("B05","Fred","Bloggs","W1D 4LR"));
-			buf.append(addStudentRecord("B05","John","Doe","W127AP"));
-			buf.append(addPracticeRecord("Sheema Sufi", "Eltham Park Surgery", "SE9 1JE", 4));
-			buf.append(addPracticeRecord("Dr A Marks & Dr Kanagarajah", "Eagle House Surgery", "EN3 4DN", 6));
+			buf.append(addStudentRecord(conn, "B05","Fred","Bloggs","W1D 4LR"));
+			buf.append(addStudentRecord(conn, "B05","John","Doe","W127AP"));
+			buf.append(addPracticeRecord(conn, "Sheema Sufi", "Eltham Park Surgery", "SE9 1JE", 4));
+			buf.append(addPracticeRecord(conn, "Dr A Marks & Dr Kanagarajah", "Eagle House Surgery", "EN3 4DN", 6));
 			conn.close();  
 		}
 		catch(Exception e)
@@ -112,7 +112,7 @@ public class DBSetup {
 	}
 
 
-	private String addPracticeRecord(String gp, String practiceName, String postCode, int places) throws SQLException {
+	private String addPracticeRecord(Connection conn, String gp, String practiceName, String postCode, int places) throws SQLException {
 		PreparedStatement statement = conn.prepareStatement("INSERT INTO PRACTICE (gp, practicename, postcode, places) VALUES (?,?,?,?)");
 
 		statement.setString(1, gp);
@@ -127,7 +127,7 @@ public class DBSetup {
 		}
 		return "Affected rows = " + affectedRows;
 	}
-	private String addStudentRecord(String ref, String firstName, String familyName, String postCode) throws SQLException {
+	private String addStudentRecord(Connection conn, String ref, String firstName, String familyName, String postCode) throws SQLException {
 		PreparedStatement statement = conn.prepareStatement("INSERT INTO STUDENT (ref, first,last, postcode) VALUES (?,?,?,?)");
 
 		statement.setString(1, ref);
@@ -143,18 +143,22 @@ public class DBSetup {
 		return "Affected rows = " + affectedRows;
 	}
 	public void addStudentRecords(ArrayList<Student> students) throws SQLException {
+		
 		if (students != null) {
+			Connection conn = DriverManager.getConnection(server, rootUser, rootPassword);
+
 			Iterator<Student> studentIterator = students.iterator();
 			Student s;
 			while (studentIterator.hasNext()) {
 				s = studentIterator.next();
-				addStudentRecord(s.getRef(), s.getFirst(), s.getLast(), s.getPostcode());
+				addStudentRecord(conn, s.getRef(), s.getFirst(), s.getLast(), s.getPostcode());
 			}
+			conn.close();
 		}
 	}
 
 
-	private void createPracticeTable() throws SQLException {
+	private void createPracticeTable(Connection conn) throws SQLException {
 		Statement stmt=conn.createStatement();  
 		stmt.executeUpdate("DROP TABLE IF EXISTS PRACTICE");
 		stmt=conn.createStatement();
@@ -167,7 +171,7 @@ public class DBSetup {
 						"places INT)";
 		stmt.executeUpdate(sql);
 	}
-	private void createStudentTable() throws SQLException {
+	private void createStudentTable(Connection conn) throws SQLException {
 		Statement stmt=conn.createStatement();  
 		stmt.executeUpdate("DROP TABLE IF EXISTS STUDENT");
 		stmt=conn.createStatement();
