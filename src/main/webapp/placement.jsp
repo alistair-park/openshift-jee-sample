@@ -50,6 +50,9 @@
 		else if ("initialiseDB".equals(result)) {
 			db.initialiseDatabase();
 		}
+		else if ("testConnection".equals(result)) {
+			db.testConnection();
+		}
 
 		List<Student> students = db.getStudents();
         Iterator<Student> studentInterator = students.iterator();
