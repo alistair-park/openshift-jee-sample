@@ -27,11 +27,16 @@
   <button onclick="_submit('clear')">Clear</button>
   <input type="hidden" id="buttonId"  name = "mybutton"  value=""/>
 [] <%out.print(request.getParameter("mybutton"));%> []
-[] <%out.print(request.getParameter("buttonId"));%> []
 
   <table>  
 	<% 
 		DBSetup db = new DBSetup();
+		String result = request.getParameter("mybutton");
+
+		if ("clear".equals(result)) {
+			db.clear();
+		}
+
 		List<Student> students = db.getStudents();
         Iterator<Student> studentInterator = students.iterator();
         while (studentInterator.hasNext()) {
