@@ -127,6 +127,7 @@
 					out.print("No students to upload");
 				}
 				else {
+					out.print("Read " +studentsToUpload.size() + " students");
 					db.addStudentRecords(studentsToUpload);
 				}
             }
