@@ -152,7 +152,7 @@
 					ArrayList<Practice> practicesToUpload = new ArrayList<Practice>();
 					for (CSVRecord record : records) {
 						Practice p = new Practice(
-								record.get("Gp"), 
+								record.get("GP"), 
 								record.get("Practice"), 
 								record.get("Postcode"), 
 								Integer.parseInt(record.get("Slots")));
