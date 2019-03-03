@@ -91,7 +91,7 @@ public class DBSetup {
 			ResultSet rs=stmt.executeQuery("select * from PRACTICE");
 			while(rs.next())  {
 				practice = new Practice(
-							rs.getString("gp"),
+							rs.getString("GP"),
 							rs.getString("practiceName"),
 							rs.getString("postcode"),
 							rs.getInt("places"));
