@@ -123,6 +123,7 @@ public class DBSetup {
 			Connection conn = DriverManager.getConnection(server, rootUser, rootPassword);
 			createStudentTable(conn);
 			createPracticeTable(conn);
+			createDistanceTable(conn);
 
 			addStudentRecord(conn, "B05","Fred","Bloggs","W1D 4LR");
 			addStudentRecord(conn, "B05","John","Doe","W127AP");
