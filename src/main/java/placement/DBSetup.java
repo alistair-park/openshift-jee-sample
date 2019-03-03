@@ -82,6 +82,25 @@ public class DBSetup {
 		}catch(Exception e){ e.printStackTrace();}
 		return students;
 	}
+	public List<Practice> getPractices() {
+		List<Practice> practices = new ArrayList<>();
+		Practice practice;
+		try {
+			Connection conn = DriverManager.getConnection(server, rootUser, rootPassword);
+			Statement stmt=conn.createStatement();  
+			ResultSet rs=stmt.executeQuery("select * from PRACTICE");
+			while(rs.next())  {
+				practice = new Practice(
+							rs.getString("gp"),
+							rs.getString("practiceName"),
+							rs.getString("postcode"),
+							rs.getInt("places"));
+				practices.add(practice);
+			}
+			conn.close();  
+		}catch(Exception e){ e.printStackTrace();}
+		return practices;
+	}
 	public void create(String databaseName) {
 		
 	}
@@ -97,10 +116,10 @@ public class DBSetup {
 			createStudentTable(conn);
 			createPracticeTable(conn);
 
-			buf.append(addStudentRecord(conn, "B05","Fred","Bloggs","W1D 4LR"));
-			buf.append(addStudentRecord(conn, "B05","John","Doe","W127AP"));
-			buf.append(addPracticeRecord(conn, "Sheema Sufi", "Eltham Park Surgery", "SE9 1JE", 4));
-			buf.append(addPracticeRecord(conn, "Dr A Marks & Dr Kanagarajah", "Eagle House Surgery", "EN3 4DN", 6));
+			addStudentRecord(conn, "B05","Fred","Bloggs","W1D 4LR");
+			addStudentRecord(conn, "B05","John","Doe","W127AP");
+			addPracticeRecord(conn, "Sheema Sufi", "Eltham Park Surgery", "SE9 1JE", 4);
+			addPracticeRecord(conn, "Dr A Marks & Dr Kanagarajah", "Eagle House Surgery", "EN3 4DN", 6);
 			conn.close();  
 		}
 		catch(Exception e)
@@ -112,7 +131,7 @@ public class DBSetup {
 	}
 
 
-	private String addPracticeRecord(Connection conn, String gp, String practiceName, String postCode, int places) throws SQLException {
+	private void addPracticeRecord(Connection conn, String gp, String practiceName, String postCode, int places) throws SQLException {
 		PreparedStatement statement = conn.prepareStatement("INSERT INTO PRACTICE (gp, practicename, postcode, places) VALUES (?,?,?,?)");
 
 		statement.setString(1, gp);
@@ -125,9 +144,8 @@ public class DBSetup {
 		if (affectedRows == 0) {
 			throw new SQLException("Creating user failed, no rows affected.");
 		}
-		return "Affected rows = " + affectedRows;
 	}
-	private String addStudentRecord(Connection conn, String ref, String firstName, String familyName, String postCode) throws SQLException {
+	private void addStudentRecord(Connection conn, String ref, String firstName, String familyName, String postCode) throws SQLException {
 		PreparedStatement statement = conn.prepareStatement("INSERT INTO STUDENT (ref, first,last, postcode) VALUES (?,?,?,?)");
 
 		statement.setString(1, ref);
@@ -140,7 +158,6 @@ public class DBSetup {
 		if (affectedRows == 0) {
 			throw new SQLException("Creating user failed, no rows affected.");
 		}
-		return "Affected rows = " + affectedRows;
 	}
 	public void addStudentRecords(ArrayList<Student> students) throws SQLException {
 		
@@ -152,6 +169,20 @@ public class DBSetup {
 			while (studentIterator.hasNext()) {
 				s = studentIterator.next();
 				addStudentRecord(conn, s.getRef(), s.getFirst(), s.getLast(), s.getPostcode());
+			}
+			conn.close();
+		}
+	}
+	public void addPracticeRecords(ArrayList<Practice> practices) throws SQLException {
+		
+		if (practices != null) {
+			Connection conn = DriverManager.getConnection(server, rootUser, rootPassword);
+
+			Iterator<Practice> practiceIterator = practices.iterator();
+			Practice p;
+			while (practiceIterator.hasNext()) {
+				p = practiceIterator.next();
+				addPracticeRecord(conn,p.getGp(), p.getPracticeName(), p.getPostcode(), p.getPlaces());
 			}
 			conn.close();
 		}

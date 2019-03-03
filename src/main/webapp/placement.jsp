@@ -16,7 +16,6 @@
 	    <script type="text/javascript">
         function _submit(buttonName) {
 	     	document.getElementById('buttonId').value=buttonName;
-	     	alert(buttonName);
             document.getElementById('placementform').submit();
         }
       </script>
@@ -35,7 +34,6 @@
   <input type="hidden" id="buttonId"  name = "mybutton"  value=""/>
 [] <%out.print(request.getParameter("mybutton"));%> []
 
-  <table>  
 	<% 
 		DBSetup db = new DBSetup();
 		String result = request.getParameter("mybutton");
@@ -56,6 +54,12 @@
 
 		List<Student> students = db.getStudents();
         Iterator<Student> studentInterator = students.iterator();
+		List<Practice> practices = db.getPractices();
+        Iterator<Practice> practiceInterator = practices.iterator();
+        %>
+        <P>STUDENTS</P>
+        <TABLE>
+        <TR><TH>Ref</TH><TH>First</TH><TH>Last</TH><TH>Postcode</TH></TR><%
         while (studentInterator.hasNext()) {
             Student student = studentInterator.next();
            %>
@@ -69,33 +73,43 @@
             <%out.print(student.getPostcode());%>
             </TD></TR>
             <%}%>  
-  </table>
-
+ 		</TABLE>
+        <TABLE>
+        <P>GPs</P>
+        <TR><TH>GP</TH><TH>Practice</TH><TH>Postcode</TH><TH>Places</TH></TR><%
+        while (practiceInterator.hasNext()) {
+            Practice practice = practiceInterator.next();
+           %>
+            <TR><TD>
+            <%out.print(practice.getGp());%>
+            </TD><TD>
+            <%out.print(practice.getPracticeName());%>
+            </TD><TD>
+            <%out.print(practice.getPostcode());%>
+           </TD><TD>
+            <%out.print(practice.getPlaces());%>
+            </TD></TR>
+            <%}%>  
+ 		</TABLE>
 </form>
 
       <h3>File Upload:</h3>
       Select a file to upload: <br />
       <form action = "placement.jsp" method = "post"
          enctype = "multipart/form-data">
-         <input type = "file" name = "file" size = "50" />
+         <input type = "file" name = "fil" size = "50" />
          <br />
          <input type = "submit" value = "Upload File" />
       </form>
       
       <%
    File file ;
- //  int maxFileSize = 5000 * 1024;
-   //int maxMemSize = 5000 * 1024;
-   //String filePath = "E:/guru99/data";
- 
+  
    String contentType = request.getContentType();
    if (contentType != null && (contentType.indexOf("multipart/form-data") >= 0)) {
  
       DiskFileItemFactory factory = new DiskFileItemFactory();
-     // factory.setSizeThreshold(maxMemSize);
-      //factory.setRepository(new File("c:\\temp"));
       ServletFileUpload upload = new ServletFileUpload(factory);
-      //upload.setSizeMax( maxFileSize );
       try{ 
          List fileItems = upload.parseRequest(request);
          Iterator i = fileItems.iterator();
@@ -114,21 +128,46 @@
 				//
 				// Iterate over different rows
 				//
-				ArrayList<Student> studentsToUpload = new ArrayList<Student>();
-				for (CSVRecord record : records) {
-					Student s = new Student(
-							record.get("Ref"), 
-							record.get("First"), 
-							record.get("Last"), 
-							record.get("Postcode"));
-					studentsToUpload.add(s);
+				
+				// What kind of records do we have?
+				if (fi.getName().toUpperCase().contains("STUDENT")) {
+					ArrayList<Student> studentsToUpload = new ArrayList<Student>();
+					for (CSVRecord record : records) {
+						Student s = new Student(
+								record.get("Ref"), 
+								record.get("First"), 
+								record.get("Last"), 
+								record.get("Postcode"));
+						studentsToUpload.add(s);
+					}
+					if (studentsToUpload.isEmpty()){
+						out.print("No students to upload");
+					}
+					else {
+						out.print("Read " +studentsToUpload.size() + " students");
+						db.addStudentRecords(studentsToUpload);
+					}					
 				}
-				if (studentsToUpload.isEmpty()){
-					out.print("No students to upload");
+				else if (fi.getName().toUpperCase().contains("PRACTICE")) {
+					ArrayList<Practice> practicesToUpload = new ArrayList<Practice>();
+					for (CSVRecord record : records) {
+						Practice p = new Practice(
+								record.get("Gp"), 
+								record.get("Practice"), 
+								record.get("Postcode"), 
+								Integer.parseInt(record.get("Slots")));
+						practicesToUpload.add(p);
+					}
+					if (practicesToUpload.isEmpty()){
+						out.print("No practices to upload");
+					}
+					else {
+						out.print("Read " +practicesToUpload.size() + " practices");
+						db.addPracticeRecords(practicesToUpload);
+					}					
 				}
 				else {
-					out.print("Read " +studentsToUpload.size() + " students");
-					db.addStudentRecords(studentsToUpload);
+					out.print("File should either be named STUDENT or PRACTICE");
 				}
             }
          }
