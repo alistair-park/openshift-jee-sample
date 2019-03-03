@@ -31,6 +31,11 @@
   <button onclick="_submit('testConnection')">Test Connection</button>
 
   <button onclick="_submit('clear')">Clear</button>
+
+  <button onclick="_submit('calculate')">Calculate Distances</button>
+  
+    <button onclick="_submit('allocate')">Allocate</button>
+  
   <input type="hidden" id="buttonId"  name = "mybutton"  value=""/>
 [] <%out.print(request.getParameter("mybutton"));%> []
 
@@ -51,11 +56,17 @@
 		else if ("testConnection".equals(result)) {
 			db.testConnection();
 		}
-
+		else if ("calculate".equals(result)) {
+			db.calculate();
+		}
+		else if ("allocate".equals(result)) {
+			db.allocate();
+		}
 		List<Student> students = db.getStudents();
         Iterator<Student> studentInterator = students.iterator();
 		List<Practice> practices = db.getPractices();
         Iterator<Practice> practiceInterator = practices.iterator();
+        int distances = db.countDistances();
         %>
         <P>STUDENTS</P>
         <TABLE>
@@ -91,6 +102,7 @@
             </TD></TR>
             <%}%>  
  		</TABLE>
+ 		Distance records: <%out.print(distances);%>
 </form>
 
       <h3>File Upload:</h3>

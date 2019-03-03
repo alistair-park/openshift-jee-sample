@@ -101,16 +101,24 @@ public class DBSetup {
 		}catch(Exception e){ e.printStackTrace();}
 		return practices;
 	}
+	public int countDistances() {
+		int distanceRecords=0;
+		try {
+			Connection conn = DriverManager.getConnection(server, rootUser, rootPassword);
+			Statement stmt=conn.createStatement();  
+			ResultSet rs=stmt.executeQuery("select count(*) as total from distance");
+			while(rs.next())  {
+				distanceRecords = rs.getInt("total");
+			}
+			conn.close();  
+		}catch(Exception e){ e.printStackTrace();}
+		return distanceRecords;	
+	}
+
 	public void create(String databaseName) {
 		
 	}
-	public String initialiseDatabase() {
-		StringBuffer buf = new StringBuffer("<p>initialiseDatabase</p>");
-
-		// Create user
-		// Create Student table
-		// Create Practice table
-		// Create DriveTime table
+	public void initialiseDatabase() {
 		try {
 			Connection conn = DriverManager.getConnection(server, rootUser, rootPassword);
 			createStudentTable(conn);
@@ -124,12 +132,37 @@ public class DBSetup {
 		}
 		catch(Exception e)
 		{ 
-			buf.append(e);
+			e.printStackTrace();
 		}  
-		return buf.toString();
-
 	}
+	public void allocate() {
+		try {
+			Connection conn = DriverManager.getConnection(server, rootUser, rootPassword);
+			createStudentTable(conn);
+			createPracticeTable(conn);
 
+			addStudentRecord(conn, "B05","Fred","Bloggs","W1D 4LR");
+			addStudentRecord(conn, "B05","John","Doe","W127AP");
+			addPracticeRecord(conn, "Sheema Sufi", "Eltham Park Surgery", "SE9 1JE", 4);
+			addPracticeRecord(conn, "Dr A Marks & Dr Kanagarajah", "Eagle House Surgery", "EN3 4DN", 6);
+			conn.close();  
+		}
+		catch(Exception e)
+		{ 
+			e.printStackTrace();
+		}  
+	}
+	public void calculate() {
+		try {
+			Connection conn = DriverManager.getConnection(server, rootUser, rootPassword);
+			createDistanceTable(conn);
+			conn.close();  
+		}
+		catch(Exception e)
+		{ 
+			e.printStackTrace();
+		}  
+	}
 
 	private void addPracticeRecord(Connection conn, String gp, String practiceName, String postCode, int places) throws SQLException {
 		PreparedStatement statement = conn.prepareStatement("INSERT INTO PRACTICE (gp, practicename, postcode, places) VALUES (?,?,?,?)");
@@ -214,6 +247,14 @@ public class DBSetup {
 						"last VARCHAR(255) NOT NULL,"+
 						"postcode VARCHAR(10),"+
 						"allocatedPractice VARCHAR(100))";
+		stmt.executeUpdate(sql);
+	}
+	private void createDistanceTable(Connection conn)  throws SQLException {
+		Statement stmt=conn.createStatement();  
+		stmt.executeUpdate("DROP TABLE IF EXISTS DISTANCE");
+		stmt=conn.createStatement();
+		String sql = 
+				"CREATE TABLE DISTANCE AS SELECT DISTINCT STUDENT.POSTCODE AS FROM_POSTCODE, PRACTICE.POSTCODE AS TO_POSTCODE, 0 as DISTANCE FROM STUDENT CROSS JOIN PRACTICE";
 		stmt.executeUpdate(sql);
 	}
 }
