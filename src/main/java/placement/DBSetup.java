@@ -88,13 +88,13 @@ public class DBSetup {
 		try {
 			Connection conn = DriverManager.getConnection(server, rootUser, rootPassword);
 			Statement stmt=conn.createStatement();  
-			ResultSet rs=stmt.executeQuery("select * from PRACTICE");
+			ResultSet rs=stmt.executeQuery("select GP,PRACTICENAME, POSTCODE, PLACES from PRACTICE");
 			while(rs.next())  {
 				practice = new Practice(
 							rs.getString("GP"),
-							rs.getString("practiceName"),
-							rs.getString("postcode"),
-							rs.getInt("places"));
+							rs.getString("PRACTICENAME"),
+							rs.getString("POSTCODE"),
+							rs.getInt("PLACES"));
 				practices.add(practice);
 			}
 			conn.close();  
