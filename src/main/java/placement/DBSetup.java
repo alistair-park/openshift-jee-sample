@@ -294,5 +294,6 @@ public class DBSetup {
 				"CREATE TABLE DISTANCE (from_postcode varchar(10), to_postcode varchar(10), distance int)";//AS SELECT DISTINCT STUDENT.POSTCODE AS FROM_POSTCODE, PRACTICE.POSTCODE AS TO_POSTCODE, 0 as DISTANCE FROM STUDENT CROSS JOIN PRACTICE";
 		stmt.executeUpdate(sql);
 		stmt.close();
+		addDistanceRecord(conn, "WD3 5DN", "HA5 3YJ", 100);
 	}
 }
