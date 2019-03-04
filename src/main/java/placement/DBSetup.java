@@ -110,7 +110,7 @@ public class DBSetup {
 		try {
 			Connection conn = DriverManager.getConnection(server, rootUser, rootPassword);
 			Statement stmt=conn.createStatement();  
-			ResultSet rs=stmt.executeQuery("SELECT COUNT(*) AS TOTAL FROM STUDENT");
+			ResultSet rs=stmt.executeQuery("SELECT COUNT(*) AS TOTAL FROM DISTANCE");
 			while(rs.next())  {
 				distanceRecords = rs.getInt("TOTAL");
 			}
@@ -291,9 +291,9 @@ public class DBSetup {
 		stmt.close();
 		stmt=conn.createStatement();
 		String sql = 
-				"CREATE TABLE DISTANCE (from_postcode varchar(10), to_postcode varchar(10), distance int)";//AS SELECT DISTINCT STUDENT.POSTCODE AS FROM_POSTCODE, PRACTICE.POSTCODE AS TO_POSTCODE, 0 as DISTANCE FROM STUDENT CROSS JOIN PRACTICE";
+				"CREATE TABLE DISTANCE AS SELECT DISTINCT STUDENT.POSTCODE AS FROM_POSTCODE, PRACTICE.POSTCODE AS TO_POSTCODE, 0 as DISTANCE FROM STUDENT CROSS JOIN PRACTICE";
 		stmt.executeUpdate(sql);
 		stmt.close();
-		addDistanceRecord(conn, "WD3 5DN", "HA5 3YJ", 100);
+//		addDistanceRecord(conn, "WD3 5DN", "HA5 3YJ", 100);
 	}
 }
