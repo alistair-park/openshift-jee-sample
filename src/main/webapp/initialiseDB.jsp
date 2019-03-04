@@ -2,5 +2,7 @@
   
   <%
   	DBSetup db = new DBSetup();
-	out.print(db.initialiseDatabase());
+	db.initialiseDatabase();
+	out.print("Initialise called");
+	out.print(db.countDistances());
   %>
