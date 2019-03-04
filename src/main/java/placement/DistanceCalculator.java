@@ -37,8 +37,9 @@ class DistanceCalculator
 			
 			//Iterating condition to if response code is not 200 then throw a runtime exception
 			//else continue the actual process of getting the JSON data
-			if(responsecode != 200)
-				throw new RuntimeException("HttpResponseCode: " +responsecode);
+			if(responsecode != 200) {
+				return 0;
+			}
 			else
 			{
 				//Scanner functionality will read the JSON data from the stream
