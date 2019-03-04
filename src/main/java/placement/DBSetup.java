@@ -235,7 +235,7 @@ public class DBSetup {
 
 		statement.setString(1, gp);
 		statement.setString(2, practiceName);
-		statement.setString(3, postCode);
+		statement.setString(3, postCode.toUpperCase().replaceAll("\\s+",""));
 		statement.setInt(4, places);
 
 		int affectedRows = statement.executeUpdate();
@@ -263,7 +263,7 @@ public class DBSetup {
 		statement.setString(1, ref);
 		statement.setString(2, firstName);
 		statement.setString(3, familyName);
-		statement.setString(4, postCode);
+		statement.setString(4, postCode.toUpperCase().replaceAll("\\s+",""));
 
 		int affectedRows = statement.executeUpdate();
 		statement.close();
