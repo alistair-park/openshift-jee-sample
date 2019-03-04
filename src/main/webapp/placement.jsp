@@ -22,7 +22,7 @@
 </HEAD>
 <BODY>
 
-<H1>WebApp JSP Test Page</H1>
+<H1>Allocate</H1>
 
   <form id="placementform" action = "placement.jsp" method="POST">
   

@@ -156,16 +156,42 @@ public class DBSetup {
 			e.printStackTrace();
 		}  
 	}
+	public List<Distance> getDistances() {
+		List<Distance> distances = new ArrayList<>();
+		Distance distance;
+		try {
+			Connection conn = DriverManager.getConnection(server, rootUser, rootPassword);
+			Statement stmt=conn.createStatement();  
+			ResultSet rs=stmt.executeQuery("select from_postcode, to_postcode, distance from distance");
+			while(rs.next())  {
+				distance = new Distance(
+						rs.getString("from_postcode"),
+						rs.getString("to_postcode"),
+						rs.getLong("distance"));
+				distances.add(distance);
+			}
+			stmt.close();
+			conn.close();  
+		}catch(Exception e){ e.printStackTrace();}
+		return distances;
+	}
 	public void allocate() {
 		try {
 			Connection conn = DriverManager.getConnection(server, rootUser, rootPassword);
-			createStudentTable(conn);
-			createPracticeTable(conn);
-
-			addStudentRecord(conn, "B05","Fred","Bloggs","W1D 4LR");
-			addStudentRecord(conn, "B05","John","Doe","W127AP");
-			addPracticeRecord(conn, "Sheema Sufi", "Eltham Park Surgery", "SE9 1JE", 4);
-			addPracticeRecord(conn, "Dr A Marks & Dr Kanagarajah", "Eagle House Surgery", "EN3 4DN", 6);
+			createDistanceTable(conn);
+			// Get all distances
+			List<Distance> distances = getDistances();
+			Iterator<Distance> distanceIterator = distances.iterator();
+			Distance distance;
+			DistanceCalculator calc = new DistanceCalculator("AIzaSyAt08icyRLfS-8bGNNaqqJmg1r4UPuPkjs", "drive");
+			long distanceMeters;
+			while (distanceIterator.hasNext()) {
+				distance = distanceIterator.next();
+				if (distance.getDistance() == 0) {
+					distanceMeters = calc.getDistance(distance.fromPostcode, distance.toPostcode);
+					System.out.println("Distance from " + distance.fromPostcode + " to " + distance.toPostcode + " = " + distanceMeters);
+				}
+			}
 			conn.close();  
 		}
 		catch(Exception e)
