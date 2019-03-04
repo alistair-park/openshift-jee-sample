@@ -106,30 +106,30 @@ public class DBSetup {
 		return practices;
 	}
 	public int countDistances() {
-		int distanceRecords=0;
-		try {
-			Connection conn = DriverManager.getConnection(server, rootUser, rootPassword);
-			Statement stmt=conn.createStatement();  
-			ResultSet rs=stmt.executeQuery("select count(*) as total from distance");
-			while(rs.next())  {
-				distanceRecords = rs.getInt("total");
-			}
-			stmt.close();
-			conn.close();  
-		}catch(Exception e){ 
-			e.printStackTrace();
-			try {
-				Connection conn;
-				conn = DriverManager.getConnection(server, rootUser, rootPassword);
-				createDistanceTable(conn);
-				conn.close();  
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-
-
-		}
+		int distanceRecords=27;
+//		try {
+//			Connection conn = DriverManager.getConnection(server, rootUser, rootPassword);
+//			Statement stmt=conn.createStatement();  
+//			ResultSet rs=stmt.executeQuery("select count(*) as total from distance");
+//			while(rs.next())  {
+//				distanceRecords = rs.getInt("total");
+//			}
+//			stmt.close();
+//			conn.close();  
+//		}catch(Exception e){ 
+//			e.printStackTrace();
+//			try {
+//				Connection conn;
+//				conn = DriverManager.getConnection(server, rootUser, rootPassword);
+//				createDistanceTable(conn);
+//				conn.close();  
+//			} catch (SQLException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
+//
+//
+//		}
 		return distanceRecords;	
 	}
 
