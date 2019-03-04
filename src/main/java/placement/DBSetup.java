@@ -32,8 +32,10 @@ public class DBSetup {
 
 			Statement stmt=conn.createStatement();  
 			stmt.executeUpdate("TRUNCATE TABLE STUDENT");
+			stmt.close();
 			stmt=conn.createStatement();  
 			stmt.executeUpdate("TRUNCATE TABLE PRACTICE");
+			stmt.close();
 			conn.close();
 		}catch(Exception e){ buf.append(e);}
 		return buf.toString();	
@@ -78,6 +80,7 @@ public class DBSetup {
 						rs.getString("allocatedPractice"));
 				students.add(student);
 			}
+			stmt.close();
 			conn.close();  
 		}catch(Exception e){ e.printStackTrace();}
 		return students;
@@ -97,6 +100,7 @@ public class DBSetup {
 						rs.getInt("PLACES"));
 				practices.add(practice);
 			}
+			stmt.close();
 			conn.close();  
 		}catch(Exception e){ e.printStackTrace();}
 		return practices;
@@ -110,6 +114,7 @@ public class DBSetup {
 			while(rs.next())  {
 				distanceRecords = rs.getInt("total");
 			}
+			stmt.close();
 			conn.close();  
 		}catch(Exception e){ 
 			e.printStackTrace();
@@ -187,7 +192,7 @@ public class DBSetup {
 		statement.setInt(4, places);
 
 		int affectedRows = statement.executeUpdate();
-
+		statement.close();
 		if (affectedRows == 0) {
 			throw new SQLException("Creating user failed, no rows affected.");
 		}
@@ -201,7 +206,7 @@ public class DBSetup {
 		statement.setString(4, postCode);
 
 		int affectedRows = statement.executeUpdate();
-
+		statement.close();
 		if (affectedRows == 0) {
 			throw new SQLException("Creating user failed, no rows affected.");
 		}
@@ -248,6 +253,7 @@ public class DBSetup {
 						"postcode VARCHAR(10),"+
 						"places INT)";
 		stmt.executeUpdate(sql);
+		stmt.close();
 	}
 	private void createStudentTable(Connection conn) throws SQLException {
 		Statement stmt=conn.createStatement();  
@@ -262,13 +268,16 @@ public class DBSetup {
 						"postcode VARCHAR(10),"+
 						"allocatedPractice VARCHAR(100))";
 		stmt.executeUpdate(sql);
+		stmt.close();
 	}
 	private void createDistanceTable(Connection conn)  throws SQLException {
 		Statement stmt=conn.createStatement();  
 		stmt.executeUpdate("DROP TABLE IF EXISTS DISTANCE");
+		stmt.close();
 		stmt=conn.createStatement();
 		String sql = 
 				"CREATE TABLE DISTANCE AS SELECT DISTINCT STUDENT.POSTCODE AS FROM_POSTCODE, PRACTICE.POSTCODE AS TO_POSTCODE, 0 as DISTANCE FROM STUDENT CROSS JOIN PRACTICE";
 		stmt.executeUpdate(sql);
+		stmt.close();
 	}
 }
