@@ -5,7 +5,7 @@
 	<%@ page import="java.lang.management.*" %>
 	<%@ page import="java.util.*" %>
 	<%@ page import="placement.*" %>
-	<%@ page import="com.mysql.jdbc.*" %>
+	<%@ page import="com.mysql.cj.jdbc.*" %>
 	<%@ page import = "org.apache.commons.fileupload.*" %>
 	<%@ page import = "org.apache.commons.fileupload.disk.*" %>
 	<%@ page import = "org.apache.commons.fileupload.servlet.*" %>

@@ -141,12 +141,14 @@ public class DBSetup {
 			Connection conn = DriverManager.getConnection(server, rootUser, rootPassword);
 			createStudentTable(conn);
 			createPracticeTable(conn);
+			createDistanceTable(conn);
 
 			addStudentRecord(conn, "B05","Fred","Bloggs","W1D 4LR");
 			addStudentRecord(conn, "B05","John","Doe","W127AP");
 			addPracticeRecord(conn, "Sheema Sufi", "Eltham Park Surgery", "SE9 1JE", 4);
 			addPracticeRecord(conn, "Dr A Marks & Dr Kanagarajah", "Eagle House Surgery", "EN3 4DN", 6);
-			createDistanceTable(conn);
+			addDistanceRecord(conn, "WD3 5DN", "HA5 3YJ", 100);
+			
 			conn.close();  
 		}
 		catch(Exception e)
@@ -195,6 +197,19 @@ public class DBSetup {
 		statement.close();
 		if (affectedRows == 0) {
 			throw new SQLException("Creating user failed, no rows affected.");
+		}
+	}
+	private void addDistanceRecord(Connection conn, String from_postcode, String to_postcode, int distance) throws SQLException {
+		PreparedStatement statement = conn.prepareStatement("INSERT INTO distance (from_postcode, to_postcode, distance) VALUES (?,?,?)");
+
+		statement.setString(1, from_postcode);
+		statement.setString(2, to_postcode);
+		statement.setInt(3, distance);
+
+		int affectedRows = statement.executeUpdate();
+		statement.close();
+		if (affectedRows == 0) {
+			throw new SQLException("adding distance failed, no rows affected.");
 		}
 	}
 	private void addStudentRecord(Connection conn, String ref, String firstName, String familyName, String postCode) throws SQLException {
@@ -276,7 +291,7 @@ public class DBSetup {
 		stmt.close();
 		stmt=conn.createStatement();
 		String sql = 
-				"CREATE TABLE DISTANCE AS SELECT DISTINCT STUDENT.POSTCODE AS FROM_POSTCODE, PRACTICE.POSTCODE AS TO_POSTCODE, 0 as DISTANCE FROM STUDENT CROSS JOIN PRACTICE";
+				"CREATE TABLE DISTANCE (from_postcode varchar(10), to_postcode varchar(10), distance int)";//AS SELECT DISTINCT STUDENT.POSTCODE AS FROM_POSTCODE, PRACTICE.POSTCODE AS TO_POSTCODE, 0 as DISTANCE FROM STUDENT CROSS JOIN PRACTICE";
 		stmt.executeUpdate(sql);
 		stmt.close();
 	}
