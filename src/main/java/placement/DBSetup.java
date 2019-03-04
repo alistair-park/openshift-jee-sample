@@ -6,7 +6,7 @@ import java.util.List;
 
 
 public class DBSetup {
-	private String server = "jdbc:mysql://172.30.136.50:3306/mysql";
+	private String server = "jdbc:mysql://172.30.136.50:3306/mysql?useSSL=false";
 	private String rootUser = "root";//System.getenv("OPENSHIFT_MYSQL_DB_USERNAME");
 	private String rootPassword = "RFH2019!";//System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD");
 	private String appUser = "placement";//System.getenv("OPENSHIFT_MYSQL_DB_USERNAME");
