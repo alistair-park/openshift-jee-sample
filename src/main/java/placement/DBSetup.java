@@ -11,7 +11,7 @@ public class DBSetup {
 	private String rootPassword = "RFH2019!";//System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD");
 	private String appUser = "placement";//System.getenv("OPENSHIFT_MYSQL_DB_USERNAME");
 	private String appPassword = "RFH2019!";//System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD");
-//	private Connection conn;
+	//	private Connection conn;
 
 	public static DBSetup getDBSetup() {
 		return new DBSetup();
@@ -70,12 +70,12 @@ public class DBSetup {
 			ResultSet rs=stmt.executeQuery("select * from STUDENT");
 			while(rs.next())  {
 				student = new Student(
-							rs.getInt("id"),
-							rs.getString("ref"),
-							rs.getString("first"),
-							rs.getString("last"),
-							rs.getString("postcode"),
-							rs.getString("allocatedPractice"));
+						rs.getInt("id"),
+						rs.getString("ref"),
+						rs.getString("first"),
+						rs.getString("last"),
+						rs.getString("postcode"),
+						rs.getString("allocatedPractice"));
 				students.add(student);
 			}
 			conn.close();  
@@ -91,10 +91,10 @@ public class DBSetup {
 			ResultSet rs=stmt.executeQuery("select GP,PRACTICENAME, POSTCODE, PLACES from PRACTICE");
 			while(rs.next())  {
 				practice = new Practice(
-							rs.getString("GP"),
-							rs.getString("PRACTICENAME"),
-							rs.getString("POSTCODE"),
-							rs.getInt("PLACES"));
+						rs.getString("GP"),
+						rs.getString("PRACTICENAME"),
+						rs.getString("POSTCODE"),
+						rs.getInt("PLACES"));
 				practices.add(practice);
 			}
 			conn.close();  
@@ -111,12 +111,25 @@ public class DBSetup {
 				distanceRecords = rs.getInt("total");
 			}
 			conn.close();  
-		}catch(Exception e){ e.printStackTrace();}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			try {
+				Connection conn;
+				conn = DriverManager.getConnection(server, rootUser, rootPassword);
+				createDistanceTable(conn);
+				conn.close();  
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+
+		}
 		return distanceRecords;	
 	}
 
 	public void create(String databaseName) {
-		
+
 	}
 	public void initialiseDatabase() {
 		try {
@@ -194,7 +207,7 @@ public class DBSetup {
 		}
 	}
 	public void addStudentRecords(ArrayList<Student> students) throws SQLException {
-		
+
 		if (students != null) {
 			Connection conn = DriverManager.getConnection(server, rootUser, rootPassword);
 
@@ -208,7 +221,7 @@ public class DBSetup {
 		}
 	}
 	public void addPracticeRecords(ArrayList<Practice> practices) throws SQLException {
-		
+
 		if (practices != null) {
 			Connection conn = DriverManager.getConnection(server, rootUser, rootPassword);
 
