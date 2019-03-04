@@ -162,12 +162,12 @@ public class DBSetup {
 		try {
 			Connection conn = DriverManager.getConnection(server, rootUser, rootPassword);
 			Statement stmt=conn.createStatement();  
-			ResultSet rs=stmt.executeQuery("select from_postcode, to_postcode, distance from distance");
+			ResultSet rs=stmt.executeQuery("SELECT FROM_POSTCODE, TO_POSTCODE, DISTANCE FROM DISTANCE");
 			while(rs.next())  {
 				distance = new Distance(
-						rs.getString("from_postcode"),
-						rs.getString("to_postcode"),
-						rs.getLong("distance"));
+						rs.getString("FROM_POSTCODE"),
+						rs.getString("TO_POSTCODE"),
+						rs.getLong("DISTANCE"));
 				distances.add(distance);
 			}
 			stmt.close();
