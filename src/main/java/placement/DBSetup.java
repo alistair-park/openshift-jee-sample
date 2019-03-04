@@ -110,9 +110,9 @@ public class DBSetup {
 		try {
 			Connection conn = DriverManager.getConnection(server, rootUser, rootPassword);
 			Statement stmt=conn.createStatement();  
-			ResultSet rs=stmt.executeQuery("select count(*) as total from student");
+			ResultSet rs=stmt.executeQuery("SELECT COUNT(*) AS TOTAL FROM STUDENT");
 			while(rs.next())  {
-				distanceRecords = rs.getInt("total");
+				distanceRecords = rs.getInt("TOTAL");
 			}
 			stmt.close();
 			conn.close();  
