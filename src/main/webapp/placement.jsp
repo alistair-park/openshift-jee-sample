@@ -37,10 +37,12 @@
     <button onclick="_submit('allocate')">Allocate</button>
   
   <input type="hidden" id="buttonId"  name = "mybutton"  value=""/>
-[] <%out.print(request.getParameter("mybutton"));%> []
+[Button click: <%out.print(request.getParameter("mybutton"));%> ]
 
 	<% 
 		DBSetup db = new DBSetup();
+%>[Environment variables: <%out.print(db.getEnvVariables());%>]<% 
+
 		String result = request.getParameter("mybutton");
 		String databaseName = request.getParameter("databaseName");
 

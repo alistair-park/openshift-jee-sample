@@ -6,11 +6,12 @@ import java.util.List;
 
 
 public class DBSetup {
-	private String server = "jdbc:mysql://172.30.136.50:3306/mysql?useSSL=false";
-	private String rootUser = "root";//System.getenv("OPENSHIFT_MYSQL_DB_USERNAME");
-	private String rootPassword = "RFH2019!";//System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD");
-	private String appUser = "placement";//System.getenv("OPENSHIFT_MYSQL_DB_USERNAME");
-	private String appPassword = "RFH2019!";//System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD");
+	private String server = "jdbc:mysql://" + System.getenv("MYSQL_SERVER") + "/mysql?useSSL=false";
+	private String rootUser = System.getenv("MYSQL_ROOT_USER");
+	private String rootPassword = System.getenv("MYSQL_ROOT_PW");
+	private String appUser = System.getenv("MYSQL_APP_USER");
+	private String appPassword = System.getenv("MYSQL_APP_PW");
+	private String googleAPI = System.getenv("GOOGLE_API");
 	//	private Connection conn;
 
 	public static DBSetup getDBSetup() {
@@ -19,10 +20,12 @@ public class DBSetup {
 
 	public String getEnvVariables() {
 		StringBuffer buf = new StringBuffer();
-		buf.append("<p>" + System.getenv("MYSQL_USER") + "/p>");
-		buf.append("<p>" + System.getenv("MYSQL_PASSWORD") + "/p>");
-		buf.append("<p>" + System.getenv("MYSQL_ROOT_PASSWORD") + "/p>");
-		buf.append("<p>" + System.getenv("MYSQL_DATABASE") + "/p>");
+		buf.append("<p>" + System.getenv("MYSQL_SERVER") + "/p>");
+		buf.append("<p>" + System.getenv("MYSQL_ROOT_USER") + "/p>");
+		buf.append("<p>" + System.getenv("MYSQL_ROOT_PW") + "/p>");
+		buf.append("<p>" + System.getenv("MYSQL_APP_USER") + "/p>");
+		buf.append("<p>" + System.getenv("MYSQL_APP_PW") + "/p>");
+		buf.append("<p>" + System.getenv("GOOGLE_API") + "/p>");
 		return buf.toString();
 	}
 	public String clear() throws SQLException {
@@ -46,9 +49,6 @@ public class DBSetup {
 		try {
 			Connection conn = DriverManager.getConnection(server, rootUser, rootPassword);
 
-			//			Connection con=DriverManager.getConnection(  
-			//					"jdbc:mysql://localhost:3306/placement","placement","RFH2019!");  
-			//			//here sonoo is database name, root is username and password  
 			Statement stmt=conn.createStatement();  
 			ResultSet rs=stmt.executeQuery("select * from STUDENT");
 			buf.append("<p>Executed query</p>/r/n");
@@ -183,7 +183,7 @@ public class DBSetup {
 			List<Distance> distances = getDistances();
 			Iterator<Distance> distanceIterator = distances.iterator();
 			Distance distance;
-			DistanceCalculator calc = new DistanceCalculator("AIzaSyAt08icyRLfS-8bGNNaqqJmg1r4UPuPkjs", "drive");
+			DistanceCalculator calc = new DistanceCalculator(googleAPI, "drive");
 			long distanceMeters;
 			while (distanceIterator.hasNext()) {
 				distance = distanceIterator.next();
