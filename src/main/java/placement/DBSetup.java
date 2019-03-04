@@ -171,7 +171,7 @@ public class DBSetup {
 		try {
 			Connection conn = DriverManager.getConnection(server, rootUser, rootPassword);
 			Statement stmt=conn.createStatement();  
-			ResultSet rs=stmt.executeQuery("SELECT FROM_POSTCODE, TO_POSTCODE, DISTANCE FROM DISTANCE");
+			ResultSet rs=stmt.executeQuery("SELECT FROM_POSTCODE, TO_POSTCODE, DISTANCE FROM DISTANCE where DISTANCE = 0");
 			while(rs.next())  {
 				distance = new Distance(
 						rs.getString("FROM_POSTCODE"),
