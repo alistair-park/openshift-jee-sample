@@ -105,36 +105,45 @@ public class DBSetup {
 		}catch(Exception e){ e.printStackTrace();}
 		return practices;
 	}
-	public int countDistances() {
-		int distanceRecords=27;
+	public String countDistances() {
+		StringBuffer buf = new StringBuffer();
 		try {
 			Connection conn = DriverManager.getConnection(server, rootUser, rootPassword);
 			Statement stmt=conn.createStatement();  
 			ResultSet rs=stmt.executeQuery("SELECT COUNT(*) AS TOTAL FROM DISTANCE");
 			while(rs.next())  {
-				distanceRecords = rs.getInt("TOTAL");
+				buf.append("Total = " +  rs.getInt("TOTAL"));
+			}
+			stmt.close();
+			stmt=conn.createStatement();  
+			rs=stmt.executeQuery("SELECT COUNT(*) AS TOTAL FROM DISTANCE WHERE DISTANCE > 0");
+			while(rs.next())  {
+				buf.append("Distances known = " +  rs.getInt("TOTAL"));
 			}
 			stmt.close();
 			conn.close();  
 		}catch(Exception e){ 
 			e.printStackTrace();
-//			try {
-//				Connection conn;
-//				conn = DriverManager.getConnection(server, rootUser, rootPassword);
-//				createDistanceTable(conn);
-//				conn.close();  
-//			} catch (SQLException e1) {
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//		}
-//
-//
 		}
-		return distanceRecords;	
+		return buf.toString();	
 	}
 
 	public void create(String databaseName) {
 
+	}
+	private void updateDistance(Connection conn, Distance distance) throws SQLException {
+		PreparedStatement statement = conn.prepareStatement("UPDATE DISTANCE SET DISTANCE=? WHERE FROM_POSTCODE=? AND TO_POSTCODE=?");
+
+		statement.setLong(1, distance.distance);
+		statement.setString(2, distance.fromPostcode);
+		statement.setString(3, distance.toPostcode);
+
+		int affectedRows = statement.executeUpdate();
+		statement.close();
+		if (affectedRows == 0) {
+			throw new SQLException("Creating user failed, no rows affected.");
+		}
+	
 	}
 	public void initialiseDatabase() {
 		try {
@@ -188,8 +197,18 @@ public class DBSetup {
 			while (distanceIterator.hasNext()) {
 				distance = distanceIterator.next();
 				if (distance.getDistance() == 0) {
-					distanceMeters = calc.getDistance(distance.fromPostcode, distance.toPostcode);
-					System.out.println("Distance from " + distance.fromPostcode + " to " + distance.toPostcode + " = " + distanceMeters);
+					try {
+						distanceMeters = calc.getDistance(distance.fromPostcode, distance.toPostcode);
+						if(distanceMeters > 0) {
+							distance.setDistance(distanceMeters);
+							updateDistance(conn, distance);
+							System.out.println("Distance from " + distance.fromPostcode + " to " + distance.toPostcode + " = " + distanceMeters);
+						}						
+					}
+					catch(Exception e)
+					{ 
+						e.printStackTrace();
+					}  
 				}
 			}
 			conn.close();  
@@ -320,6 +339,5 @@ public class DBSetup {
 				"CREATE TABLE DISTANCE AS SELECT DISTINCT STUDENT.POSTCODE AS FROM_POSTCODE, PRACTICE.POSTCODE AS TO_POSTCODE, 0 as DISTANCE FROM STUDENT CROSS JOIN PRACTICE";
 		stmt.executeUpdate(sql);
 		stmt.close();
-//		addDistanceRecord(conn, "WD3 5DN", "HA5 3YJ", 100);
 	}
 }

@@ -41,7 +41,6 @@
 
 	<% 
 		DBSetup db = new DBSetup();
-%>[Environment variables: <%out.print(db.getEnvVariables());%>]<% 
 
 		String result = request.getParameter("mybutton");
 		String databaseName = request.getParameter("databaseName");
@@ -68,7 +67,6 @@
         Iterator<Student> studentInterator = students.iterator();
 		List<Practice> practices = db.getPractices();
         Iterator<Practice> practiceInterator = practices.iterator();
-        int distances = db.countDistances();
         %>
         <P>STUDENTS</P>
         <TABLE>
@@ -104,7 +102,7 @@
             </TD></TR>
             <%}%>  
  		</TABLE>
- 		Distance records: <%out.print(distances);%>
+ 		Distance records: <%out.print(db.countDistances());%>
 </form>
 
       <h3>File Upload:</h3>
