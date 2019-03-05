@@ -14,12 +14,13 @@ class DistanceCalculator
 	
 	public static void main(String[] args) {
 		DistanceCalculator dc = new DistanceCalculator("AIzaSyAt08icyRLfS-8bGNNaqqJmg1r4UPuPkjs","walking");
-		dc.getDistance("HA53YJ", "NW32UB");
-		dc.getDistance("W1D4LR", "NW32UB");
-		dc.getDistance("NW32UB", "W1D4LR");
-		dc.getDistance("HA53YJ", "SE91JE");
-		dc.getDistance("W1D 4LR", "SE9 1JE");
-		dc.getDistance("SE91JE", "W1D4LR");
+//		dc.getDistance("HA53YJ", "NW32UB");
+//		dc.getDistance("W1D4LR", "NW32UB");
+//		dc.getDistance("NW32UB", "W1D4LR");
+//		dc.getDistance("HA53YJ", "SE91JE");
+//		dc.getDistance("W1D 4LR", "SE9 1JE");
+//		dc.getDistance("SE91JE", "W1D4LR");
+		dc.getDistance("HA89GJ", "N76NE");
 	}
 	public DistanceCalculator(String key, String mode) {
 		this.key = key;
@@ -68,6 +69,15 @@ class DistanceCalculator
 			//else continue the actual process of getting the JSON data
 			if(responsecode != 200) {
 				System.out.println("distance [NOT FOUND]");
+				Scanner sc = new Scanner(url.openStream());
+				while(sc.hasNext())
+				{
+					inline+=sc.nextLine();
+				}
+//				System.out.println("\nJSON Response in String format"); 
+				System.out.println(inline);
+				//Close the stream when reading the data has been finished
+				sc.close();
 
 				return 0;
 			}
@@ -80,7 +90,7 @@ class DistanceCalculator
 					inline+=sc.nextLine();
 				}
 //				System.out.println("\nJSON Response in String format"); 
-//				System.out.println(inline);
+				System.out.println(inline);
 				//Close the stream when reading the data has been finished
 				sc.close();
 			}
@@ -92,7 +102,7 @@ class DistanceCalculator
 			JSONObject rowObj = (JSONObject) ((JSONArray) jobj.get("rows")).get(0);
 			JSONObject elementObj = (JSONObject) ((JSONArray) rowObj.get("elements")).get(0);
 			JSONObject distanceObj = (JSONObject) elementObj.get("distance");
-			 distance = ((Long)distanceObj.get("value")).longValue();
+			distance = ((Long)distanceObj.get("value")).longValue();
 			
 			System.out.println("distance ["+distance+" m]");
 			
@@ -101,7 +111,7 @@ class DistanceCalculator
 		}
 		catch(Exception e)
 		{
-//			e.printStackTrace();
+			e.printStackTrace();
 			System.out.println("distance [ERROR]");
 
 		}
